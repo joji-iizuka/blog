@@ -1,58 +1,46 @@
 import * as React from "react"
-import { Link, graphql, useStaticQuery } from "gatsby"
-import { IndexHoge2Query } from "../../types/graphql-types"
+import { Link, graphql } from "gatsby"
+import { BlogsQuery } from "../../types/graphql-types"
+import { Page } from "../layouts"
+import Box from "@material-ui/core/Box/Box"
 // ______________________________________________________
 //
 type Props = {
-  data: IndexHoge2Query
+  data: BlogsQuery
 }
 // ______________________________________________________
 //
 const Component: React.FC<Props> = ({ data }) => {
   console.log(data);
-  // const data2 = useStaticQuery(graphql`
-  //   query allContentfulUser {
-  //     allContentfulUser {
-  //       nodes {
-  //         id
-  //         name
-  //         age
-  //       }
-  //     }
-  //   }
-  // `)
-  // console.log(data2);
   return (
-    <div>
-      <h1>Hi people</h1>
-      <strong>{data.site?.siteMetadata?.title}</strong> site.
-      <p>Welcome to your new </p>
-      <p>Now go build something great.</p>
-      <ul>
-        <li>
-          <Link to="/page-2/">Go to page 2</Link>
-        </li>
-        <li>
-          <Link to="/authors/">Go to authors</Link>
-        </li>
-      </ul>
-    </div>
+    <Page>
+      {data.allContentfulBlogPost.edges.map(it => {
+        return (
+          <Box key={it.node.id}>
+            <Link to={`/blogs/${it.node.id}`}>{it.node.title}</Link>
+          </Box>
+        )
+      })}
+    </Page>
   )
 }
 // ______________________________________________________
 //
 export const pageQuery = graphql`
-  query IndexHoge2 {
+  query Blogs {
     allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }) {
       edges {
         node {
-          title
+          id
           slug
-          publishDate(formatString: "MMMM Do, YYYY")
+          title
+          body {
+            body
+          }
           tags
           heroImage {
             fluid(maxWidth: 350, maxHeight: 196, resizingBehavior: SCALE) {
-              ...GatsbyContentfulFluid_tracedSVG
+              ...GatsbyContentfulFluid
             }
           }
         }

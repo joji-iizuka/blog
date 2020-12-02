@@ -14,10 +14,12 @@
   },
   "dependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.6.0",
+    "@material-ui/core": "^4.11.1",
     "@types/node": "^12.12.7",
     "@types/react-helmet": "^5.0.14",
     "gatsby": "^2.17.11",
     "gatsby-plugin-graphql-codegen": "^2.0.1",
+    "gatsby-plugin-material-ui": "^2.1.10",
     "gatsby-plugin-react-helmet": "^3.1.14",
     "gatsby-plugin-typescript": "^2.1.16",
     "gatsby-source-contentful": "^4.1.1",

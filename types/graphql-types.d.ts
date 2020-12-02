@@ -2841,6 +2841,7 @@ export type QuerySitePluginArgs = {
   version?: Maybe<StringQueryOperatorInput>,
   pluginOptions?: Maybe<SitePluginPluginOptionsFilterInput>,
   nodeAPIs?: Maybe<StringQueryOperatorInput>,
+  browserAPIs?: Maybe<StringQueryOperatorInput>,
   ssrAPIs?: Maybe<StringQueryOperatorInput>,
   pluginFilepath?: Maybe<StringQueryOperatorInput>,
   packageJson?: Maybe<SitePluginPackageJsonFilterInput>
@@ -3155,21 +3156,43 @@ export type SitePageConnectionGroupArgs = {
 };
 
 export type SitePageContext = {
-  author?: Maybe<SitePageContextAuthor>,
-};
-
-export type SitePageContextAuthor = {
-  name?: Maybe<Scalars['String']>,
+  id?: Maybe<Scalars['String']>,
   slug?: Maybe<Scalars['String']>,
+  title?: Maybe<Scalars['String']>,
+  body?: Maybe<SitePageContextBody>,
+  heroImage?: Maybe<SitePageContextHeroImage>,
 };
 
-export type SitePageContextAuthorFilterInput = {
-  name?: Maybe<StringQueryOperatorInput>,
-  slug?: Maybe<StringQueryOperatorInput>,
+export type SitePageContextBody = {
+  body?: Maybe<Scalars['String']>,
+};
+
+export type SitePageContextBodyFilterInput = {
+  body?: Maybe<StringQueryOperatorInput>,
 };
 
 export type SitePageContextFilterInput = {
-  author?: Maybe<SitePageContextAuthorFilterInput>,
+  id?: Maybe<StringQueryOperatorInput>,
+  slug?: Maybe<StringQueryOperatorInput>,
+  title?: Maybe<StringQueryOperatorInput>,
+  body?: Maybe<SitePageContextBodyFilterInput>,
+  heroImage?: Maybe<SitePageContextHeroImageFilterInput>,
+};
+
+export type SitePageContextHeroImage = {
+  fluid?: Maybe<SitePageContextHeroImageFluid>,
+};
+
+export type SitePageContextHeroImageFilterInput = {
+  fluid?: Maybe<SitePageContextHeroImageFluidFilterInput>,
+};
+
+export type SitePageContextHeroImageFluid = {
+  base64?: Maybe<Scalars['String']>,
+};
+
+export type SitePageContextHeroImageFluidFilterInput = {
+  base64?: Maybe<StringQueryOperatorInput>,
 };
 
 export type SitePageEdge = {
@@ -3270,8 +3293,11 @@ export type SitePageFieldsEnum =
   'component' |
   'componentChunkName' |
   'isCreatedByStatefulCreatePages' |
-  'context___author___name' |
-  'context___author___slug' |
+  'context___id' |
+  'context___slug' |
+  'context___title' |
+  'context___body___body' |
+  'context___heroImage___fluid___base64' |
   'pluginCreator___id' |
   'pluginCreator___parent___id' |
   'pluginCreator___parent___parent___id' |
@@ -3319,6 +3345,7 @@ export type SitePageFieldsEnum =
   'pluginCreator___pluginOptions___path' |
   'pluginCreator___pluginOptions___pathCheck' |
   'pluginCreator___nodeAPIs' |
+  'pluginCreator___browserAPIs' |
   'pluginCreator___ssrAPIs' |
   'pluginCreator___pluginFilepath' |
   'pluginCreator___packageJson___name' |
@@ -3380,6 +3407,7 @@ export type SitePlugin = Node & {
   version?: Maybe<Scalars['String']>,
   pluginOptions?: Maybe<SitePluginPluginOptions>,
   nodeAPIs?: Maybe<Array<Maybe<Scalars['String']>>>,
+  browserAPIs?: Maybe<Array<Maybe<Scalars['String']>>>,
   ssrAPIs?: Maybe<Array<Maybe<Scalars['String']>>>,
   pluginFilepath?: Maybe<Scalars['String']>,
   packageJson?: Maybe<SitePluginPackageJson>,
@@ -3508,6 +3536,7 @@ export type SitePluginFieldsEnum =
   'pluginOptions___path' |
   'pluginOptions___pathCheck' |
   'nodeAPIs' |
+  'browserAPIs' |
   'ssrAPIs' |
   'pluginFilepath' |
   'packageJson___name' |
@@ -3537,6 +3566,7 @@ export type SitePluginFilterInput = {
   version?: Maybe<StringQueryOperatorInput>,
   pluginOptions?: Maybe<SitePluginPluginOptionsFilterInput>,
   nodeAPIs?: Maybe<StringQueryOperatorInput>,
+  browserAPIs?: Maybe<StringQueryOperatorInput>,
   ssrAPIs?: Maybe<StringQueryOperatorInput>,
   pluginFilepath?: Maybe<StringQueryOperatorInput>,
   packageJson?: Maybe<SitePluginPackageJsonFilterInput>,
@@ -3687,10 +3717,10 @@ export type AuthorsQueryVariables = {};
 
 export type AuthorsQuery = { site: Maybe<{ siteMetadata: Maybe<{ authors: Maybe<Array<Maybe<Pick<SiteSiteMetadataAuthors, 'name' | 'slug'>>>> }> }> };
 
-export type IndexHoge2QueryVariables = {};
+export type BlogsQueryVariables = {};
 
 
-export type IndexHoge2Query = { allContentfulBlogPost: { edges: Array<{ node: (
-        Pick<ContentfulBlogPost, 'title' | 'slug' | 'publishDate' | 'tags'>
-        & { heroImage: Maybe<{ fluid: Maybe<> }> }
+export type BlogsQuery = { allContentfulBlogPost: { edges: Array<{ node: (
+        Pick<ContentfulBlogPost, 'id' | 'slug' | 'title' | 'tags'>
+        & { body: Maybe<Pick<ContentfulBlogPostBodyTextNode, 'body'>>, heroImage: Maybe<{ fluid: Maybe<> }> }
       ) }> } };
