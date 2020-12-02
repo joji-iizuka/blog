@@ -3,16 +3,14 @@ import { Link } from "gatsby"
 // ______________________________________________________
 //
 const Component: React.FC = () => (
-  <div
+  <header
     style={{
-      background: "rebeccapurple",
       marginBottom: "1.45rem"
     }}
   >
     <div
       style={{
         margin: "0 auto",
-        maxWidth: 960,
         padding: "1.45rem 1.0875rem"
       }}
     >
@@ -20,15 +18,15 @@ const Component: React.FC = () => (
         <Link
           to="/"
           style={{
-            color: "white",
+            color: "#555",
             textDecoration: "none"
           }}
         >
-          Gatsby
+          飯塚 ブログ
         </Link>
       </h1>
     </div>
-  </div>
+  </header>
 )
 // ______________________________________________________
 //
