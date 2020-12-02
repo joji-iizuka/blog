@@ -3160,6 +3160,7 @@ export type SitePageContext = {
   slug?: Maybe<Scalars['String']>,
   title?: Maybe<Scalars['String']>,
   body?: Maybe<SitePageContextBody>,
+  description?: Maybe<SitePageContextDescription>,
   heroImage?: Maybe<SitePageContextHeroImage>,
 };
 
@@ -3171,11 +3172,20 @@ export type SitePageContextBodyFilterInput = {
   body?: Maybe<StringQueryOperatorInput>,
 };
 
+export type SitePageContextDescription = {
+  description?: Maybe<Scalars['String']>,
+};
+
+export type SitePageContextDescriptionFilterInput = {
+  description?: Maybe<StringQueryOperatorInput>,
+};
+
 export type SitePageContextFilterInput = {
   id?: Maybe<StringQueryOperatorInput>,
   slug?: Maybe<StringQueryOperatorInput>,
   title?: Maybe<StringQueryOperatorInput>,
   body?: Maybe<SitePageContextBodyFilterInput>,
+  description?: Maybe<SitePageContextDescriptionFilterInput>,
   heroImage?: Maybe<SitePageContextHeroImageFilterInput>,
 };
 
@@ -3297,6 +3307,7 @@ export type SitePageFieldsEnum =
   'context___slug' |
   'context___title' |
   'context___body___body' |
+  'context___description___description' |
   'context___heroImage___fluid___base64' |
   'pluginCreator___id' |
   'pluginCreator___parent___id' |
@@ -3722,5 +3733,5 @@ export type BlogsQueryVariables = {};
 
 export type BlogsQuery = { allContentfulBlogPost: { edges: Array<{ node: (
         Pick<ContentfulBlogPost, 'id' | 'slug' | 'title' | 'tags'>
-        & { body: Maybe<Pick<ContentfulBlogPostBodyTextNode, 'body'>>, heroImage: Maybe<{ fluid: Maybe<> }> }
+        & { body: Maybe<Pick<ContentfulBlogPostBodyTextNode, 'body'>>, description: Maybe<Pick<ContentfulBlogPostDescriptionTextNode, 'description'>>, heroImage: Maybe<{ fluid: Maybe<> }> }
       ) }> } };

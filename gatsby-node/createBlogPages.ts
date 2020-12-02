@@ -20,6 +20,9 @@ const query = `
         body {
           body
         }
+        description {
+          description
+        }
         heroImage {
           fluid(maxWidth: 350, maxHeight: 196, resizingBehavior: SCALE) {
             base64

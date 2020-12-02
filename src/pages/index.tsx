@@ -3,24 +3,43 @@ import { Link, graphql } from "gatsby"
 import { BlogsQuery } from "../../types/graphql-types"
 import { Page } from "../layouts"
 import Box from "@material-ui/core/Box/Box"
-// ______________________________________________________
-//
+import {BlogCard} from "../components/blogCard"
+import { makeStyles } from "@material-ui/core"
+
+const useStyles = makeStyles({
+  cards: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    // alignItems: 'stretch',
+    // '& > a': {
+    //   maxWidth: '33%',
+    //   minWidth: '50%',
+    //   height: 300,
+    // }
+  },
+});
+
 type Props = {
   data: BlogsQuery
 }
-// ______________________________________________________
-//
 const Component: React.FC<Props> = ({ data }) => {
-  console.log(data);
+  const classes = useStyles();
+
   return (
     <Page>
-      {data.allContentfulBlogPost.edges.map(it => {
-        return (
-          <Box key={it.node.id}>
-            <Link to={`/blogs/${it.node.id}`}>{it.node.title}</Link>
-          </Box>
-        )
-      })}
+      <Box className={classes.cards}>
+        {data.allContentfulBlogPost.edges.map(it => {
+          return (
+              <Link to={`/blogs/${it.node.id}`} key={it.node.id}>
+                <BlogCard
+                  image={it.node.heroImage?.fluid.src}
+                  title={it.node.title!}
+                  description={it.node.description!.description!}
+                />
+              </Link>
+          )
+        })}
+      </Box >
     </Page>
   )
 }
@@ -37,9 +56,12 @@ export const pageQuery = graphql`
           body {
             body
           }
+          description {
+            description
+          }
           tags
           heroImage {
-            fluid(maxWidth: 350, maxHeight: 196, resizingBehavior: SCALE) {
+            fluid {
               ...GatsbyContentfulFluid
             }
           }
