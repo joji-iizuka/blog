@@ -1,3 +1,9 @@
+const dotenv = require("dotenv")
+
+if (process.env.ENVIRONMENT !== "production") {
+  dotenv.config()
+}
+
 module.exports = {
   siteMetadata: {
     title: `Gatsby Typescript Starter`,
@@ -13,8 +19,15 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-graphql-codegen',
       options: {
-        fileName: `types/graphql-types.d.ts`
+        fileName: `types/graphql-types.d.ts`,
       }
+    },
+    {
+      resolve: "gatsby-source-contentful",
+      options: {
+        spaceId: process.env.spaceId,
+        accessToken: process.env.accessToken,
+      },
     }
   ]
 }
