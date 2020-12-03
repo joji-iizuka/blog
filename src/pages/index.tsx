@@ -3,20 +3,24 @@ import { Link, graphql } from "gatsby"
 import { BlogsQuery } from "../../types/graphql-types"
 import { Page } from "../layouts"
 import Box from "@material-ui/core/Box/Box"
-import {BlogCard} from "../components/blogCard"
+import {BlogCard} from "../components/BlogCard"
 import { makeStyles } from "@material-ui/core"
 
 const useStyles = makeStyles({
+  main: {
+    float: 'left',
+    width: '69%',
+    paddingRight: 30,
+  },
   cards: {
     display: 'flex',
     flexWrap: 'wrap',
     // alignItems: 'stretch',
-    // '& > a': {
-    //   maxWidth: '33%',
-    //   minWidth: '50%',
-    //   height: 300,
-    // }
   },
+  card: {
+    width: '45%',
+    margin: '0 4% 25px 0',
+  }
 });
 
 type Props = {
@@ -27,19 +31,23 @@ const Component: React.FC<Props> = ({ data }) => {
 
   return (
     <Page>
-      <Box className={classes.cards}>
-        {data.allContentfulBlogPost.edges.map(it => {
-          return (
-              <Link to={`/blogs/${it.node.id}`} key={it.node.id}>
-                <BlogCard
-                  image={it.node.heroImage?.fluid.src}
-                  title={it.node.title!}
-                  description={it.node.description!.description!}
-                />
-              </Link>
-          )
-        })}
-      </Box >
+      <main className={classes.main}>
+        <Box className={classes.cards}>
+          {data.allContentfulBlogPost.edges.map(it => {
+            return (
+              <article className={classes.card}>
+                <Link to={`/blogs/${it.node.id}`} key={it.node.id}>
+                  <BlogCard
+                    image={it.node.heroImage?.fluid.src}
+                    title={it.node.title!}
+                    description={it.node.description!.description!}
+                  />
+                </Link>
+              </article>
+            )
+          })}
+        </Box >
+      </main>
     </Page>
   )
 }
