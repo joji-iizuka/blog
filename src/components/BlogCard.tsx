@@ -7,17 +7,26 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { Tag } from './tag';
+import { Box } from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: {},
+  tags: {
+    padding: 16,
+    '& > div:not(:last-child)': {
+      marginRight: 8,
+    }
+  },
 });
 
 interface IProps {
   title: string;
   image: string; // base64
   description: string;
+  tags: string[];
 }
-export const BlogCard:FC<IProps> = ({image, title, description}) => {
+export const BlogCard:FC<IProps> = ({image, title, description, tags}) => {
   const classes = useStyles();
 
   return (
@@ -29,6 +38,9 @@ export const BlogCard:FC<IProps> = ({image, title, description}) => {
           image={image}
           title="Contemplative Reptile"
         />
+        <Box className={classes.tags}>
+          {tags.map(tag => <Tag key={tag} str={tag} onClick={() => {}}/>)}
+        </Box>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {title}
@@ -38,14 +50,6 @@ export const BlogCard:FC<IProps> = ({image, title, description}) => {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-      </CardActions>
     </Card>
   );
 }
