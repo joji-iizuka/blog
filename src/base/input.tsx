@@ -11,6 +11,6 @@ export const Input:FC<TextFieldProps> = (props) => {
   const classes = useStyles();
 
   return (
-    <TextField {...props} />
+    <TextField {...props} size="small" />
   );
 }

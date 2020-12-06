@@ -1,6 +1,6 @@
 import path from "path"
 import { Actions, CreatePagesArgs } from "gatsby"
-import { BlogsQuery, ContentfulBlogPost } from "../types/graphql-types";
+import { BlogsQuery } from "../types/graphql-types";
 // ______________________________________________________
 //
 type Result = BlogsQuery
@@ -18,14 +18,16 @@ const query = `
         slug
         title
         body {
-          body
+          childMarkdownRemark {
+            html
+          }
         }
         description {
           description
         }
         heroImage {
-          fluid(maxWidth: 350, maxHeight: 196, resizingBehavior: SCALE) {
-            base64
+          fluid {
+            src
           }
         }
       }
@@ -45,7 +47,7 @@ export const createBlogPages = async ({ graphql, createPage }: {
   }
   result.data.allContentfulBlogPost.edges.forEach(it => {
     createPage<BlogPageContext>({
-      path: `/blogs/${it.node.id}/`,
+      path: `/blogs/${it.node.slug}/`,
       component: path.resolve("src/templates/blog.tsx"),
       context: it.node
     })

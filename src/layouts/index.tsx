@@ -8,7 +8,9 @@ const useStyles = makeStyles({
   body: {
     display: 'flex',
   },
-  main: {},
+  main: {
+    marginTop: 48,
+  },
   sidebar: {},
 });
 
@@ -29,7 +31,9 @@ export const Page: React.FC<IProps> = ({className, children}) => {
         ]}
       />
       <Header />
-      {children}
+      <Box className={classes.main}>
+        {children}
+      </Box>
     </div>
   )
 }

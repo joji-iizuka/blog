@@ -5,13 +5,15 @@ import { Page } from "../layouts"
 import Box from "@material-ui/core/Box/Box"
 import {BlogCard} from "../components/BlogCard"
 import { makeStyles } from "@material-ui/core"
-import { ISearchOption, SideBar } from "../layouts/sidebar"
+import { ISearchOption, ISidebarTab, SideBar } from "../layouts/sidebar"
 import { useEffect, useState } from "react"
 
 const useStyles = makeStyles({
   root:{},
   content: {
     display: 'flex',
+    width: 960,
+    margin: 'auto',
   },
   main: {
     float: 'left',
@@ -21,7 +23,6 @@ const useStyles = makeStyles({
   cards: {
     display: 'flex',
     flexWrap: 'wrap',
-    // alignItems: 'stretch',
   },
   card: {
     width: '45%',
@@ -43,11 +44,18 @@ const Component: React.FC<Props> = ({ data }) => {
   const classes = useStyles();
   const [searchOption, setSearchOption] = useState<ISearchOption>({tags: [], word: ''})
   const tags = data.allContentfulBlogPost.edges.flatMap(it => it.node.tags as string[] || [])
-  const uniqueTags = [...new Set(tags)];
+  const unionTags = tags.reduce<ISidebarTab[]>((array, value) => {
+    const index = array.findIndex(it => it.name === value)
+    if (index !== -1) {
+      array[index].count += 1;
+    } else {
+      array.push({name: value, count: 1})
+    }
+    return array;
+  },[]);
   const [articles, setArticles] = useState(data.allContentfulBlogPost.edges)
 
   useEffect(() => {
-    console.log(searchOption);
     setArticles(filterSearch(data, searchOption))
   }, [searchOption])
   console.log(articles);
@@ -60,9 +68,9 @@ const Component: React.FC<Props> = ({ data }) => {
             {articles.map(it => {
               return (
                 <article className={classes.card}  key={it.node.id}>
-                  <Link to={`/blogs/${it.node.id}`}>
+                  <Link to={`/blogs/${it.node.slug}`}>
                     <BlogCard
-                      image={it.node.heroImage!.fluid!.src}
+                      image={it.node.heroImage!.fluid?.src}
                       title={it.node.title!}
                       description={it.node.description!.description!}
                       tags={it.node.tags! as string[]}
@@ -73,7 +81,7 @@ const Component: React.FC<Props> = ({ data }) => {
             })}
           </Box >
         </main>
-        <SideBar tags={uniqueTags} searchOption={searchOption} setSearchOption={setSearchOption} />
+        <SideBar tags={unionTags} searchOption={searchOption} setSearchOption={setSearchOption} />
       </Box>
     </Page>
   )
@@ -89,7 +97,9 @@ export const pageQuery = graphql`
           slug
           title
           body {
-            body
+            childMarkdownRemark {
+              html
+            }
           }
           description {
             description
