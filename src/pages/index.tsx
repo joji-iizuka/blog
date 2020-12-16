@@ -31,8 +31,9 @@ const useStyles = makeStyles({
 });
 
 const filterSearch = (data: BlogsQuery, searchOption: ISearchOption) => {
+  console.log(data.allContentfulBlogPost.edges);
   return data.allContentfulBlogPost.edges.filter(it =>
-    (searchOption.word.trim() === '' ||  it.node.title!.includes(searchOption.word) ||  it.node.body!.body!.includes(searchOption.word)) &&
+    (searchOption.word.trim() === '' ||  it.node.title?.includes(searchOption.word) ||  it.node.body?.body?.includes(searchOption.word)) &&
     (searchOption.tags.length === 0 ||  it.node.tags!.some(it => searchOption.tags.includes(it as string)))
   )
 }
@@ -41,6 +42,8 @@ type Props = {
   data: BlogsQuery
 }
 const Component: React.FC<Props> = ({ data }) => {
+  // 苦肉の策
+  data.allContentfulBlogPost.edges = data.allContentfulBlogPost.edges.filter(it => it.node.heroImage?.fluid?.src);
   const classes = useStyles();
   const [searchOption, setSearchOption] = useState<ISearchOption>({tags: [], word: ''})
   const tags = data.allContentfulBlogPost.edges.flatMap(it => it.node.tags as string[] || [])

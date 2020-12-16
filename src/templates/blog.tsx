@@ -22,7 +22,6 @@ type Props = {
 }
 
 const Component: React.FC<Props> = ({ pageContext }) => {
-  console.log(pageContext);
   const classes = useStyles();
   return (
     <Page className={classes.root}>
